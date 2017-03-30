@@ -46,7 +46,7 @@ function NluAnalysisByText(text) {
 }
 
 app.get('/', function (req, res) {
-    res.send("12345676");
+    res.send("LikeIt Hack for the win!!!");
 })
 
 app.get('/posts/:uid', function (req, res) {
