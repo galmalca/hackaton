@@ -46,7 +46,7 @@ function NluAnalysisByText(text) {
 }
 
 app.get('/', function (req, res) {
-    mongo.connect("mongodb://https://likeithack.herokuapp.com/gal", function(err, db) {
+    mongo.connect("mongodb://likeithack.herokuapp.com/gal", function(err, db) {
         if(!err) {
             var collection = db.collection('pages');
             collection.find({}).toArray(function (err, items) {
