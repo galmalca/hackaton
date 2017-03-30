@@ -46,24 +46,7 @@ function NluAnalysisByText(text) {
 }
 
 app.get('/', function (req, res) {
-    mongo.connect("mongodb://likeithack.herokuapp.com/gal", function(err, db) {
-        if(!err) {
-            var collection = db.collection('pages');
-            collection.find({}).toArray(function (err, items) {
-                if(items.length != 0) {
-                    res.send(items);
-                    //NluAnalysisByUrl(url1);
-                }
-                else{
-                    setDb(db);
-                    collection.find({}).toArray(function (err, items) {
-                        res.send(JSON.stringify(items));
-                        res.end();
-                    });
-                }
-            });
-        }
-    });
+    res.send("12345676");
 })
 
 app.get('/posts/:uid', function (req, res) {
