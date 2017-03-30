@@ -66,7 +66,7 @@ app.get('/action/:uId/posts/:actionId', function (req, res) {
 
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log("Example app listening at %s",  port)
 })
 
 function setDb(db) {
