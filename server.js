@@ -46,7 +46,7 @@ function NluAnalysisByText(text) {
 }
 
 app.get('/', function (req, res) {
-    mongo.connect("mongodb://127.0.0.1:27017/gal", function(err, db) {
+    mongo.connect("mongodb://likeithack.herokuapp.com//gal", function(err, db) {
         if(!err) {
             var collection = db.collection('pages');
             collection.find({}).toArray(function (err, items) {
@@ -82,7 +82,7 @@ app.get('/action/:uId/posts/:actionId', function (req, res) {
 })
 
 
-var server = app.listen(8081, function () {
+var server = app.listen(80, function () {
     var host = server.address().address
     var port = server.address().port
     console.log("Example app listening at http://%s:%s", host, port)
