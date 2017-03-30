@@ -64,10 +64,8 @@ app.get('/action/:uId/posts/:actionId', function (req, res) {
     res.send(data);
 })
 
-
-var server = app.listen(80, function () {
-    var host = server.address().address
-    var port = server.address().port
+var port = process.env.PORT || 8080;
+app.listen(port, function () {
     console.log("Example app listening at http://%s:%s", host, port)
 })
 
