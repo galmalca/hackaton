@@ -147,20 +147,21 @@ app.get('/test', function (req, res) {
 
 app.get('/posts/:uid', function (req, res) {
     var userId = req.params.uid;
-    var arrRandom = Array();
+    var arrRandom = new Array();
     arrRandom = rand3Category();
-    var Custom2API = 'https://webhose.io/search?token=b4bb7c39-a19e-4736-9673-d99e32e3375a' + '&format=json&q=' +
-        '(' + arrRandom[0] +'%20OR%20' + arrRandom[1] + '%20OR%20' + arrRandom[2] + ')&sort=rating';
-    var arr1 = Array();
+
     var top = [];
     var posts = [];
     http.get('http://bot.bardavidistaken.com/GetTop3User/'+userId, function(resp){
         resp.on('data', function(chunk){
-            console.log(chunk.toString())
-            top = chunk.toString();
-            if(top.length == 0){//New User
-                router.get('/getRandomPosts', function (request, respo) {
-                    axios.get('${Custom2API}')
+            console.log(chunk.toString());
+            top = JSON.parse(chunk.toString());
+            console.log(top);
+            if(top[1] == null){//New User
+                var Custom2API = 'https://webhose.io/search?token=b4bb7c39-a19e-4736-9673-d99e32e3375a' + '&format=json&q=' +
+                    '(' + arrRandom[0] +'%20OR%20' + arrRandom[1] + '%20OR%20' + arrRandom[2] + ')&sort=rating';
+                var arr1 = [];
+                    axios.get(Custom2API)
                         .then(function (response) {
                             arr1 = response.data;
                             console.log(arr1);
@@ -169,14 +170,22 @@ app.get('/posts/:uid', function (req, res) {
                         .catch(function (error) {
                             console.log(error);
                         });
-
-                })
-                //res.send(posts);
             }
             else{
-                //posts = GetSpecificPost();
-                res.send(posts);
-
+                cat1 = top[1][0];
+                cat2 = top[1][1];
+                cat3 = top[1][2];
+                var Custom2API = 'https://webhose.io/search?token=b4bb7c39-a19e-4736-9673-d99e32e3375a' +
+                    '&format=json&q=(' + cat1 +'%20OR%20' + cat2 + '%20OR%20' + cat3 + ')&sort=rating'
+                axios.get(Custom2API)
+                    .then(function (response) {
+                        arr1 = response.data;
+                        console.log(arr1);
+                        res.send(getJsonByCat(arr1));
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         });
     }).on("error", function(e){
@@ -194,8 +203,8 @@ app.get('/posts/:uId/uurl/:urlId/event/:eventId', function (req, res) {
         resp.on('data', function(chunk){
             arr = chunk.toString().split('"');
             nlu.analyze({
-                'url':"https://www.yahoo.com/news/first-lady-melania-trump-makes-144507169.html",
-                //'url':arr[1].toString(),
+                //'url':"https://www.yahoo.com/news/first-lady-melania-trump-makes-144507169.html",
+                'url':arr[1].toString(),
                 'features': {
                     'categories':{}
                 }
