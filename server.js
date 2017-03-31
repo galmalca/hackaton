@@ -8,7 +8,6 @@ var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-lan
 var http = require('http');
 
 
-
 var nlu = new NaturalLanguageUnderstandingV1({
     "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
     "username": "a0d99f7c-28ca-4a7c-a734-213566de6609",
