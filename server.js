@@ -1,9 +1,12 @@
 var url1 = "http://www.forbes.com/sites/alexkonrad/2016/01/29/new-ibm-watson-chief-david-kenny-talks-his-plans-for-ai-as-a-service-and-the-weather-company-sale/";
 var express = require('express');
+var request = require('request');
 var app = express();
-var mongo = require('mongodb');
+var cors = require('cors');
 var fs = require('fs');
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+var http = require('http');
+
 
 
 var nlu = new NaturalLanguageUnderstandingV1({
@@ -13,55 +16,83 @@ var nlu = new NaturalLanguageUnderstandingV1({
     version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
 });
 
-function NluAnalysisByUrl(url) {
-    nlu.analyze({
-        'url':url,
-        'features': {
-            'categories':{},
-            'concepts': {},
-            'keywords': {},
-        }
-    }, function(err, response) {
-        if (err)
-            console.log('error:', err);
-        else
-            console.log(JSON.stringify(response, null, 2));
-    });
-
-}
-function NluAnalysisByText(text) {
-    nlu.analyze({
-        'text':text,
-        'features': {
-            'categories':{},
-            'concepts': {},
-            'keywords': {},
-        }
-    }, function(err, response) {
-        if (err)
-            console.log('error:', err);
-        else
-            return(JSON.stringify(response, null, 2));
-    });
-}
+app.use(cors());
 
 app.get('/', function (req, res) {
-    res.send("LikeIt Hack for the win!!!");
+
 })
 
-app.get('/posts/:uid', function (req, res) {
-    userId = req.params.uid;
-    res.send(userId);
-})
-
-app.get('/action/:uId/posts/:actionId', function (req, res) {
+app.get('/test', function (req, res) {
     var data = {
         "params": {
-            "userId": req.params.uId,
-            "actionId": req.params.actionId
+            "userId": 123,
+            "urlId": 456,
+            "eventId": 789
         }
     };
     res.send(data);
+})
+
+app.get('/posts/:uid', function (req, res) {
+    var userId = req.params.uid;
+    var top = [];
+    var posts = [];
+    http.get('http://bot.bardavidistaken.com/GetTop3User/'+userId, function(resp){
+        resp.on('data', function(chunk){
+            top = chunk.toString();
+            if(top.length == 0){//New User
+                posts = GetRandomPosts();
+                res.send(posts);
+            }
+            else{
+                posts = GetSpecificPost();
+                res.send(posts);
+            }
+        });
+    }).on("error", function(e){
+        console.log("Got error: " + e.message);
+    });
+})
+//GetUrl---------------------------GetUrl----http://bot.bardavidistaken.com/GetUrl/
+app.get('/posts/:uId/uurl/:urlId/event/:eventId', function (req, res) {
+    res.send("123");
+    var uId = req.params.uId;
+    var urlId = req.params.urlId;
+    var eventId = req.params.eventId;
+    http.get('http://bot.bardavidistaken.com/GetUrl/'+uId+'_'+urlId+'_'+eventId, function(resp){
+        resp.on('data', function(chunk){
+            nlu.analyze({
+                //'url':chunk.toString()[2],
+                'url':url1,
+                'features': {
+                    'categories':{},
+                }
+            }, function(err, response) {
+                if (err)
+                    console.log('error:', err);
+                else {
+                    var headers = {
+                        'User-Agent':       'Super Agent/0.0.1',
+                        'Content-Type':     'application/x-www-form-urlencoded'
+                    }
+                    var options = {
+                        url: 'http://localhost:8081',
+                        method: 'POST',
+                        headers: headers,
+                        form: {'key1': 'xxx', 'key2': 'yyy'}
+                    }
+                    request(options, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            // Print out the response body
+                            console.log(body)
+                        }
+                    })
+                }
+            });
+        });
+    }).on("error", function(e){
+        console.log("Got error: " + e.message);
+    });
 })
 
 var port = process.env.PORT || 8080;
