@@ -2,7 +2,7 @@ var url1 = "http://www.forbes.com/sites/alexkonrad/2016/01/29/new-ibm-watson-chi
 var express = require('express');
 var request = require('request');
 var app = express();
-// var cors = require('cors');
+var cors = require('cors');
 var fs = require('fs');
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 var http = require('http');
@@ -22,7 +22,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-// app.use(cors());
+app.use(cors());
 
 app.get('/', function (req, res) {
 
