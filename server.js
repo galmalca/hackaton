@@ -47,11 +47,11 @@ app.get('/posts/:uid', function (req, res) {
         resp.on('data', function(chunk){
             top = chunk.toString();
             if(top.length == 0){//New User
-                posts = GetRandomPosts();
+                //posts = GetRandomPosts();
                 res.send(posts);
             }
             else{
-                posts = GetSpecificPost();
+                //posts = GetSpecificPost();
                 res.send(posts);
             }
         });
