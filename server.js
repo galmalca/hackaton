@@ -157,7 +157,7 @@ app.get('/posts/:uid', function (req, res) {
             console.log(chunk.toString());
             top = JSON.parse(chunk.toString());
             console.log(top);
-            if(top[1] == null){//New User
+            if(top[1].length == 0){//New User
                 var Custom2API = 'https://webhose.io/search?token=b4bb7c39-a19e-4736-9673-d99e32e3375a' + '&format=json&q=' +
                     '(' + arrRandom[0] +'%20OR%20' + arrRandom[1] + '%20OR%20' + arrRandom[2] + ')&sort=rating';
                 var arr1 = [];
