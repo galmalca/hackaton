@@ -51,7 +51,14 @@ app.get('/', function (req, res) {
 
 app.get('/posts/:uid', function (req, res) {
     userId = req.params.uid;
-    res.send(userId);
+    var data = {
+        "params": {
+            "userId": req.params.userId,
+            "urlId": req.params.urlId,
+            "eventId": req.params.eventId
+        }
+    };
+    res.send(data);
 })
 
 app.get('/action/:uId/posts/:actionId', function (req, res) {
