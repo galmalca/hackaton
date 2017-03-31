@@ -13,5 +13,13 @@
     "watson-developer-cloud": "^2.27.1"
   },
   "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/galmalca/hackaton.git"
+  },
+  "bugs": {
+    "url": "https://github.com/galmalca/hackaton/issues"
+  },
+  "homepage": "https://github.com/galmalca/hackaton#readme",
   "description": ""
 }

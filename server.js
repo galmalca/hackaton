@@ -15,6 +15,13 @@ var nlu = new NaturalLanguageUnderstandingV1({
     version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
 });
 
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
+    next();
+});
+
 app.use(cors());
 
 app.get('/', function (req, res) {
@@ -70,15 +77,10 @@ app.get('/posts/:uId/uurl/:urlId/event/:eventId', function (req, res) {
                 if (err)
                     console.log('error:', err);
                 else {
-                    var headers = {
-                        'User-Agent':       'Super Agent/0.0.1',
-                        'Content-Type':     'application/x-www-form-urlencoded'
-                    }
                     var options = {
-                        url: 'http://localhost:8081',
+                        url: 'http://bot.bardavidistaken.com/UpdateUserRanks',
                         method: 'POST',
-                        headers: headers,
-                        form: {'key1': 'xxx', 'key2': 'yyy'}
+                        form: response
                     }
                     request(options, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
