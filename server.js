@@ -164,8 +164,20 @@ app.get('/posts/:uid', function (req, res) {
                     axios.get(Custom2API)
                         .then(function (response) {
                             arr1 = response.data;
-                            console.log(arr1);
-                            res.send(getJsonByCat(arr1));
+                            //console.log(getJsonByCat(arr1));
+                            dat = getJsonByCat(arr1);
+                            res.send(dat);
+                            var options = {
+                                url: 'http://bot.bardavidistaken.com/InsertNewUrl/',
+                                method: 'POST',
+                                form: JSON.stringify(dat, null, 2)
+                            }
+                            request(options, function (error, response, body) {
+                                if (!error && response.statusCode == 200) {
+                                    // Print out the response body
+                                    console.log(body)
+                                }
+                            })
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -180,8 +192,19 @@ app.get('/posts/:uid', function (req, res) {
                 axios.get(Custom2API)
                     .then(function (response) {
                         arr1 = response.data;
-                        console.log(arr1);
-                        res.send(getJsonByCat(arr1));
+                        dat = getJsonByCat(arr1);
+                        res.send(dat);
+                        var options = {
+                            url: 'http://bot.bardavidistaken.com/InsertNewUrl/',
+                            method: 'POST',
+                            form: JSON.stringify(dat, null, 2)
+                        }
+                        request(options, function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+                                // Print out the response body
+                                console.log(body)
+                            }
+                        })
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -195,16 +218,18 @@ app.get('/posts/:uid', function (req, res) {
 
 //GetUrl---------------------------GetUrl----http://bot.bardavidistaken.com/GetUrl/
 app.get('/posts/:uId/uurl/:urlId/event/:eventId', function (req, res) {
-    res.send("123");
+    //res.send("123");
     var uId = req.params.uId;
     var urlId = req.params.urlId;
     var eventId = req.params.eventId;
     http.get('http://bot.bardavidistaken.com/GetUrl/'+uId+'_'+urlId+'_'+eventId, function(resp){
         resp.on('data', function(chunk){
-            arr = chunk.toString().split('"');
+            arr = chunk.toString();
+            x = JSON.parse(arr);
+            console.log(x);
             nlu.analyze({
                 //'url':"https://www.yahoo.com/news/first-lady-melania-trump-makes-144507169.html",
-                'url':arr[1].toString(),
+                'url':arr[3],
                 'features': {
                     'categories':{}
                 }
