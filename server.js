@@ -8,6 +8,7 @@ var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-lan
 var http = require('http');
 var router = express.Router();
 var axios = require('axios');
+var cfenv = require('cfenv');
 
 function getJsonByCat(arr){
     var existImg = Array();
@@ -91,7 +92,9 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(express.static(__dirname + '/public'));
 app.use(cors());
+var appEnv = cfenv.getAppEnv();
 
 app.get('/', function (req, res) {
 
