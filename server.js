@@ -9,6 +9,7 @@ var http = require('http');
 var router = express.Router();
 var axios = require('axios');
 
+
 function getJsonByCat(arr){
     var existImg = Array();
     arr.posts.forEach(function(post) {
@@ -92,10 +93,11 @@ app.use(function (req, res, next) {
 });
 
 app.use(cors());
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-
-})
+    res.render('/views/index.html');
+});
 
 app.get('/test', function (req, res) {
     var data = {
@@ -214,7 +216,7 @@ app.get('/posts/:uid', function (req, res) {
     }).on("error", function(e){
         console.log("Got error: " + e.message);
     });
-})
+});
 
 //GetUrl---------------------------GetUrl----http://bot.bardavidistaken.com/GetUrl/
 app.get('/posts/:uId/uurl/:urlId/event/:eventId', function (req, res) {
@@ -257,11 +259,11 @@ app.get('/posts/:uId/uurl/:urlId/event/:eventId', function (req, res) {
     }).on("error", function(e){
         console.log("Got error: " + e.message);
     });
-})
+});
 
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log("Example app listening at %s",  port)
-})
+});
 
 module.exports = router;
